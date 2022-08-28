@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from datetime import time
 
+from celery import Celery
 from django.db import models
 
 
@@ -16,6 +17,7 @@ class Greeting(models.Model):
 
     @classmethod
     def for_time_of_day(cls, time_of_day: time) -> "Greeting" | None:
+        assert Celery
         greetings: list["Greeting"] = list(
             cls.objects.filter(start_time__lte=time_of_day, end_time__gte=time_of_day)
         )
